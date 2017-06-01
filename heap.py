@@ -3,7 +3,8 @@ import random
 
 class Heap:
     class Node:
-        def __init__(self, heap, mass=0):
+        def __init__(self, nid, heap, mass=0):
+            self.id = nid
             self.pos = None
             self.heap = heap
             self.mass = mass
@@ -43,9 +44,9 @@ class Heap:
         uniform = random.random()
         return self._sample(self.heap[0], 0., uniform) if self.heap else None
 
-    def push(self, mass):
+    def push(self, nid, mass):
         self.size += 1
-        item = self.Node(self.heap, mass)
+        item = self.Node(nid, self.heap, mass)
         self.heap.append(item)
         item.pos = len(self.heap) - 1
 
@@ -59,7 +60,7 @@ class Heap:
                 item.parent.subtree_mass += item.subtree_mass - old_mass
                 break
 
-    def _add_mass(self, pos, change):
+    def add_mass(self, pos, change):
         item = self.heap[pos]
         item.mass += change
         item.subtree_mass += change
@@ -106,39 +107,3 @@ class Heap:
             return self._sample(node.right, om, u)
 
         return False
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
