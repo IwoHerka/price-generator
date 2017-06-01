@@ -31,6 +31,7 @@ class Heap:
         def __repr__(self):
             return str(self.mass)
 
+
     def __init__(self):
         self.heap = []
         self.size = 0
@@ -54,7 +55,6 @@ class Heap:
                 item.parent.subtree_mass += item.subtree_mass - old_mass
                 break
 
-
     def _add_mass(self, pos, change):
         item = self.heap[pos]
         item.mass += change
@@ -68,7 +68,6 @@ class Heap:
                 self._swap(item, item.parent)
             else:
                 item = item.parent
-
 
     def _swap(self, first, second):
         self.heap[first.pos] = second
