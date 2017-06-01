@@ -1,3 +1,6 @@
+import random
+
+
 class Heap:
     class Node:
         def __init__(self, heap, mass=0):
@@ -37,7 +40,8 @@ class Heap:
         self.size = 0
 
     def sample(self):
-        return self._sample(self.heap[0], 0., uni_sample()) if self.heap else None
+        uniform = random.random()
+        return self._sample(self.heap[0], 0., uniform) if self.heap else None
 
     def push(self, mass):
         self.size += 1
@@ -80,28 +84,28 @@ class Heap:
         # Fix sub-tree masses.
         second.subtree_mass = second.mass
 
-        left = second.left
-        second.subtree_mass += left.subtree_mass if left else 0
-
-        right = second.right
-        second.subtree_mass += right.subtree_mass if right else 0
+        second.subtree_mass += second.left.subtree_mass if second.left else 0
+        second.subtree_mass += second.right.subtree_mass if second.right else 0
 
         first.subtree_mass = first.mass
+        first.subtree_mass += first.left.subtree_mass if first.left else 0
+        first.subtree_mass += first.right.subtree_mass if first.right else 0
 
-        left = first.left
-        first.subtree_mass += left.subtree_mass if left else 0
+    def _sample(self, node, om, u):
+        if node.left:
+            if u < (om + node.left.subtree_mass) / self.heap[0].subtree_mass:
+                return self._sample(node.left, om, u)
+            om += node.left.subtree_mass
 
-        right = first.right
-        first.subtree_mass += right.subtree_mass if right else 0
+        om += node.mass
 
+        if u < om / self.heap[0].subtree_mass:
+            return node
 
+        if node.right:
+            return self._sample(node.right, om, u)
 
-
-
-
-
-
-
+        return False
 
 
 
