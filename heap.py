@@ -84,7 +84,6 @@ class Heap:
 
         # Fix sub-tree masses.
         second.subtree_mass = second.mass
-
         second.subtree_mass += second.left.subtree_mass if second.left else 0
         second.subtree_mass += second.right.subtree_mass if second.right else 0
 

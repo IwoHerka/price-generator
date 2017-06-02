@@ -2,17 +2,23 @@ from heap import Heap
 
 
 class Price:
-    def __init__(self, N, k, c):
+    def __init__(self, N, init_mass, out_deg):
         self.heap = Heap()
-        self.heap.push(0, k)
+        self.heap.push(0, init_mass)
         self.edges = {}
-        self.nodes = set([0])
 
         for n in range(N):
-            self.nodes.add(n + 1)
-            self.heap.push(n + 1, k)
+            for _ in range(out_deg):
+                target = self.heap.sample()
+                links = self.edges.get(n + 1, set())
+                links.add(target.id)
+                self.edges[n + 1] = links
+                self.heap.add_mass(target.pos, 1)
 
-            for i in range(c):
-                sample = self.heap.sample()
-                self.edges[n + 1] = sample.id
-                self.heap.add_mass(sample.pos, 1)
+            self.heap.push(n + 1, init_mass)
+
+    def write(self, path):
+        with open(path, 'w') as out:
+            for src in self.edges:
+                for tgt in self.edges[src]:
+                    out.write('{} {}\n'.format(src, tgt))
