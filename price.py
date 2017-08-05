@@ -22,3 +22,7 @@ class Price:
             for src in self.edges:
                 for tgt in self.edges[src]:
                     out.write('{} {}\n'.format(src, tgt))
+
+# Example usage:
+# price = Price(N=10, init_mass=10, out_deg=3)
+# price.write('./price.dat')
